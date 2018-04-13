@@ -1,0 +1,7 @@
+{
+  "Web": {
+    "Base": "./web",
+    "StaticAssets": "static",
+    "Templates": "template"
+  }
+}
