@@ -1,47 +1,66 @@
 package main
 
 import (
+	l "log"
+	"net"
+	"net/http"
+	"os"
 	"runtime"
+	"strconv"
 
+	"gopx.io/gopx-web/pkg/config"
 	"gopx.io/gopx-web/pkg/log"
+	"gopx.io/gopx-web/pkg/route"
 )
+
+var serverLogger = l.New(os.Stdout, "", l.Ldate|l.Ltime|l.Lshortfile)
 
 func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
 func main() {
-	// log.SetFormatter(&log.TextFormatter{})
+	startServer()
+}
 
-	// log.WithFields(log.Fields{
-	// 	"animal": "walrus",
-	// }).Info("A walrus appears")
+func startServer() {
+	switch {
+	case config.Service.UseHTTP && config.Service.UseHTTPS:
+		go startHTTP()
+		startHTTPS()
+	case config.Service.UseHTTP:
+		startHTTP()
+	case config.Service.UseHTTPS:
+		startHTTPS()
+	default:
+		log.Fatal("Error: no listener is specified in service config file")
+	}
+}
 
-	// log.WithFields(log.Fields{
-	// 	"animal": "walrus",
-	// }).Info("The server is running")
+func startHTTPS() {
+	addr := httpsAddr()
+	router := route.NewGoPXRouter()
+	server := &http.Server{Addr: addr, Handler: router, ErrorLog: serverLogger}
 
-	// log.WithFields(log.Fields{
-	// 	"animal": "walrus",
-	// }).Warn("A walrus appears")
+	log.Info("Running HTTPS server on: %s", addr)
+	err := server.ListenAndServeTLS(config.Service.CertFile, config.Service.KeyFile)
+	log.Fatal("Error: %s", err) // err is always non-nill
+}
 
-	// log.WithFields(log.Fields{
-	// 	"animal": "walrus",
-	// }).
+func startHTTP() {
+	addr := httpAddr()
+	router := route.NewGoPXRouter()
+	server := &http.Server{Addr: addr, Handler: router, ErrorLog: serverLogger}
 
-	// log.Warn("sdfs")
+	log.Info("Running HTTP server on: %s", addr)
+	err := server.ListenAndServe()
+	log.Fatal("Error: %s", err) // err is always non-nill
+}
 
-	// log.Panic("SDf")
+func httpAddr() string {
+	return net.JoinHostPort(config.Service.Host, strconv.Itoa(config.Service.HTTPPort))
+}
 
-	// log.Fatal(http.ListenAndServe(":8080", route.NewGoPXRouter()))
-
-	log.Debug("Server", "Useful debugging information.")
-	log.Info("IndexRouting", "Something noteworthy happened!")
-	log.Warn("Templating", "You should probably take a look at this.")
-	log.Error("Unknwon", "Something failed but I'm not quitting.")
-	// Calls os.Exit(1) after logging
-	//log.Fatal("Bye.")
-	// Calls panic() after logging
-	//log.Panic("About page", "I'm bailing.")
-
+func httpsAddr() string {
+	return net.JoinHostPort(config.Service.Host, strconv.Itoa(config.Service.HTTPSPort))
 }

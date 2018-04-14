@@ -1,0 +1,5 @@
+{
+  "staticAssetPath": "web/static",
+  "pageTemplatePath": "web/template",
+  "pageTemplateExtension": ".html"
+}

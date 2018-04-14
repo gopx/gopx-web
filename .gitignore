@@ -42,5 +42,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Don't commit certificates
+**/*/cert/
+
 
 # End of https://www.gitignore.io/api/go,macos

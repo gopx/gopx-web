@@ -1,11 +1,10 @@
-/*
-Package log is responsible for whole application logging system.
-It manages many logging settings e.g severity level, output formatting etc.
-*/
 package log
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/sirupsen/logrus"
 )
@@ -22,44 +21,53 @@ func init() {
 	}
 }
 
-// Debug logs a message with the specified context at level Debug on the standard logger.
-func Debug(context, msg string) {
-	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Debug(msg)
+func callStackInfo() string {
+	_, file, line, ok := runtime.Caller(2)
+	if !ok {
+		file = "???"
+		line = 0
+	}
+	return fmt.Sprintf("%s:%d", filepath.Base(file), line)
 }
 
-// Info logs a message with the specified context at level Info on the standard logger.
-func Info(context, msg string) {
+// Debug logs a message with call stack trace at level Debug on the standard logger.
+func Debug(format string, args ...interface{}) {
 	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Info(msg)
+		"TRACE": callStackInfo(),
+	}).Debugf(format, args...)
 }
 
-// Warn logs a message with the specified context at level Warn on the standard logger.
-func Warn(context, msg string) {
+// Info logs a message with call stack trace at level Info on the standard logger.
+func Info(format string, args ...interface{}) {
 	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Warn(msg)
+		"TRACE": callStackInfo(),
+	}).Infof(format, args...)
 }
 
-// Error logs a message with the specified context at level Error on the standard logger.
-func Error(context, msg string) {
+// Warn logs a message with call stack trace at level Warn on the standard logger.
+func Warn(format string, args ...interface{}) {
 	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Error(msg)
+		"TRACE": callStackInfo(),
+	}).Warnf(format, args...)
 }
 
-// Fatal logs a message with the specified context at level Fatal on the standard logger.
-func Fatal(context, msg string) {
+// Error logs a message with call stack trace at level Error on the standard logger.
+func Error(format string, args ...interface{}) {
 	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Fatal(msg)
+		"TRACE": callStackInfo(),
+	}).Errorf(format, args...)
 }
 
-// Panic logs a message with the specified context at level Panic on the standard logger.
-func Panic(context, msg string) {
+// Fatal logs a message with call stack trace at level Fatal on the standard logger.
+func Fatal(format string, args ...interface{}) {
 	log.WithFields(logrus.Fields{
-		"context": context,
-	}).Panic(msg)
+		"TRACE": callStackInfo(),
+	}).Fatalf(format, args...)
+}
+
+// Panic logs a message with call stack trace at level Panic on the standard logger.
+func Panic(format string, args ...interface{}) {
+	log.WithFields(logrus.Fields{
+		"TRACE": callStackInfo(),
+	}).Panicf(format, args...)
 }
