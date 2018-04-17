@@ -72,10 +72,15 @@ func packageGoGetMeta(pkg, subPkg string, w http.ResponseWriter, r *http.Request
 	}
 }
 
+// TODO: add support for private package
 func packageGoImportMeta(pkg string) string {
-	return fmt.Sprintf("%s/%s git %s://%s/%s", config.Host.Web, pkg, "http", config.Host.VCS, pkg)
+	prefix := fmt.Sprintf("%s/%s", config.Host.Web, pkg)
+	vcs := config.GoGet.VCS
+	repoRoot := fmt.Sprintf("%s://%s/%s", config.GoGet.VCSProtocol, config.Host.VCS, pkg)
+	return fmt.Sprintf("%s %s %s", prefix, vcs, repoRoot)
 }
 
+// TODO: add support for private package
 func packageGoSourceMeta(pkg string) string {
 	return ""
 }

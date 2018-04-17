@@ -100,10 +100,15 @@ func scopedPackageGoGetMeta(user, pkg, subPkg string, w http.ResponseWriter, r *
 	}
 }
 
+// TODO: add support for private scoped package
 func scopedPackageGoImportMeta(user, pkg string) string {
-	return fmt.Sprintf("%s/@%s/%s git %s://%s/@%s/%s", config.Host.Web, user, pkg, "http", config.Host.VCS, user, pkg)
+	prefix := fmt.Sprintf("%s/@%s/%s", config.Host.Web, user, pkg)
+	vcs := config.GoGet.VCS
+	repoRoot := fmt.Sprintf("%s://%s/@%s/%s", config.GoGet.VCSProtocol, config.Host.VCS, user, pkg)
+	return fmt.Sprintf("%s %s %s", prefix, vcs, repoRoot)
 }
 
+// TODO: add support for private scoped package
 func scopedPackageGoSourceMeta(user, pkg string) string {
 	return ""
 }

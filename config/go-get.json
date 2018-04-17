@@ -1,0 +1,6 @@
+{
+  "vcs": "git",
+  "vcsProtocol": "http",
+  "vcsProtocolPrivate": "git+ssh",
+  "vcsUserPrivate": "git"
+}
