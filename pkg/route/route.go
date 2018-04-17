@@ -2,6 +2,8 @@ package route
 
 import (
 	"net/http"
+	"path"
+	"strings"
 
 	"gopx.io/gopx-web/pkg/controller"
 	"gopx.io/gopx-web/pkg/log"
@@ -12,8 +14,38 @@ import (
 type GoPXRouter struct{}
 
 func (gr GoPXRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	log.Info("New connection from %s", r.RemoteAddr)
-	controller.IndexGet(w, r)
+	log.Info("%s %s", strings.ToUpper(r.Method), r.RequestURI)
+	processRoute(w, r)
+}
+
+func processRoute(w http.ResponseWriter, r *http.Request) {
+	r.URL.Path = sanitizeRoute(r.URL.Path)
+	path := r.URL.Path
+
+	switch {
+	case path == "/":
+		controller.Index(w, r)
+	case strings.HasPrefix(path, "/static"):
+		controller.Static(w, r)
+	case strings.HasPrefix(path, "/@"):
+		controller.User(w, r)
+	case strings.HasPrefix(path, "/settings"):
+		controller.Settings(w, r)
+	case strings.HasPrefix(path, "/about"):
+		controller.About(w, r)
+	case strings.HasPrefix(path, "/login"):
+		controller.Login(w, r)
+	case strings.HasPrefix(path, "/signup"):
+		controller.Signup(w, r)
+	default:
+		controller.Package(w, r)
+	}
+}
+
+// Here requested route need to be converted to lower case,
+// which enables "/About" is equivalent to "/about" etc.
+func sanitizeRoute(route string) string {
+	return path.Clean(strings.ToLower(route))
 }
 
 // NewGoPXRouter returns a new GoPXRouter instance.

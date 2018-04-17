@@ -2,7 +2,7 @@
   "host": "0.0.0.0",
   "useHTTP": true,
   "HTTPPort": 8080,
-  "useHTTPS": true,
+  "useHTTPS": false,
   "HTTPSPort": 8081,
   "certFile": "config/cert/server.crt",
   "keyFile": "config/cert/server.key"
