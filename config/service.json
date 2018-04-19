@@ -1,9 +1,9 @@
 {
   "host": "0.0.0.0",
   "useHTTP": true,
-  "HTTPPort": 8080,
+  "HTTPPort": 1200,
   "useHTTPS": false,
-  "HTTPSPort": 8081,
+  "HTTPSPort": 1201,
   "certFile": "config/cert/server.crt",
   "keyFile": "config/cert/server.key"
 }

@@ -1,5 +1,5 @@
 {
-  "web": "127.0.0.1:8080",
-  "registry": "127.0.0.1:8082",
-  "vcs": "127.0.0.1:8084"
+  "web": "gopx.io:1200",
+  "registry": "registry.gopx.io:1202",
+  "vcs": "vcs.gopx.io:1204"
 }
