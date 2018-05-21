@@ -44,6 +44,8 @@ func processRoute(w http.ResponseWriter, r *http.Request) {
 
 // Here requested route need to be converted to lower case,
 // which enables "/About" is equivalent to "/about" etc.
+// and finally cleans the path e.g. end slashes would be removed from path
+// e.g. "/about/" -> "/about" etc.
 func sanitizeRoute(route string) string {
 	return path.Clean(strings.ToLower(route))
 }
