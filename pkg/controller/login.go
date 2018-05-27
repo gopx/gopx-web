@@ -13,7 +13,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	method := strings.ToUpper(r.Method)
 
-	if path == "/login" || path == "/login/" {
+	if path == "/login" {
 		switch method {
 		case "GET":
 			loginGET(w, r)
