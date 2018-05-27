@@ -23,31 +23,39 @@ func processRoute(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 
 	switch {
-	case path == "/":
+	case matchRoute(path, "/"):
 		controller.Index(w, r)
-	case strings.HasPrefix(path, "/static"):
+	case matchRoute(path, "/static"):
 		controller.Static(w, r)
 	case strings.HasPrefix(path, "/@"):
 		controller.User(w, r)
-	case strings.HasPrefix(path, "/settings"):
+	case matchRoute(path, "/settings"):
 		controller.Settings(w, r)
-	case strings.HasPrefix(path, "/about"):
+	case matchRoute(path, "/about"):
 		controller.About(w, r)
-	case strings.HasPrefix(path, "/login"):
+	case matchRoute(path, "/login"):
 		controller.Login(w, r)
-	case strings.HasPrefix(path, "/signup"):
+	case matchRoute(path, "/signup"):
 		controller.Signup(w, r)
 	default:
 		controller.Package(w, r)
 	}
 }
 
-// Here requested route need to be converted to lower case,
+// Here requested route needs to be converted to lower case,
 // which enables "/About" is equivalent to "/about" etc.
 // and finally cleans the path e.g. end slashes would be removed from path
 // e.g. "/about/" -> "/about" etc.
 func sanitizeRoute(route string) string {
 	return path.Clean(strings.ToLower(route))
+}
+
+// Here param path and route should be cleaned.
+func matchRoute(path, route string) bool {
+	if route == "/" {
+		return path == "/"
+	}
+	return route == path || strings.HasPrefix(path, route+"/")
 }
 
 // NewGoPXRouter returns a new GoPXRouter instance.

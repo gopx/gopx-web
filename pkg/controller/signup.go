@@ -13,7 +13,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	method := strings.ToUpper(r.Method)
 
-	if path == "/signup" || path == "/signup/" {
+	if path == "/signup" {
 		switch method {
 		case "GET":
 			signupGET(w, r)

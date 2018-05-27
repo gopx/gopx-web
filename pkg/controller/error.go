@@ -11,7 +11,8 @@ import (
 func Error403(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusForbidden)
 	data := map[string]string{
-		"title": "403 Forbidden",
+		"title":   "403 Forbidden",
+		"message": r.URL.Path,
 	}
 	err := template.Render("error", w, data)
 	if err != nil {
@@ -36,7 +37,8 @@ func Error404(w http.ResponseWriter, r *http.Request) {
 func Error405(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusMethodNotAllowed)
 	data := map[string]string{
-		"title": "405 Method Not Allowed",
+		"title":   "405 Method Not Allowed",
+		"message": r.URL.Path,
 	}
 	err := template.Render("error", w, data)
 	if err != nil {
@@ -48,7 +50,8 @@ func Error405(w http.ResponseWriter, r *http.Request) {
 func Error500(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusInternalServerError)
 	data := map[string]string{
-		"title": "500 Internal Server Error",
+		"title":   "500 Internal Server Error",
+		"message": r.URL.Path,
 	}
 	err := template.Render("error", w, data)
 	if err != nil {

@@ -13,7 +13,7 @@ func About(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	method := strings.ToUpper(r.Method)
 
-	if path == "/about" || path == "/about/" {
+	if path == "/about" {
 		switch method {
 		case "GET":
 			aboutGET(w, r)
