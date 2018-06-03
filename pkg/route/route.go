@@ -9,11 +9,11 @@ import (
 	"gopx.io/gopx-web/pkg/log"
 )
 
-// GoPXRouter handles requested HTTP route, process it and hand over
+// GoPXWebRouter handles requested HTTP route, process it and hand over
 // the specific controller.
-type GoPXRouter struct{}
+type GoPXWebRouter struct{}
 
-func (gr GoPXRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (gr GoPXWebRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Info("%s %s", strings.ToUpper(r.Method), r.RequestURI)
 	processRoute(w, r)
 }
@@ -58,7 +58,7 @@ func matchRoute(path, route string) bool {
 	return route == path || strings.HasPrefix(path, route+"/")
 }
 
-// NewGoPXRouter returns a new GoPXRouter instance.
-func NewGoPXRouter() *GoPXRouter {
-	return &GoPXRouter{}
+// NewGoPXWebRouter returns a new GoPXWebRouter instance.
+func NewGoPXWebRouter() *GoPXWebRouter {
+	return &GoPXWebRouter{}
 }
