@@ -9,7 +9,7 @@ import (
 	"gopx.io/gopx-web/pkg/log"
 )
 
-// GoPXWebRouter handles requested HTTP route, process it and hand over
+// GoPXWebRouter handles requests from GoPX Web HTTP routes, process it and hand over
 // the specific controller.
 type GoPXWebRouter struct{}
 
