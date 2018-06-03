@@ -37,16 +37,6 @@ func startServer() {
 	}
 }
 
-func startHTTPS() {
-	addr := httpsAddr()
-	router := route.NewGoPXRouter()
-	server := &http.Server{Addr: addr, Handler: router, ErrorLog: serverLogger}
-
-	log.Info("Running HTTPS server on: %s", addr)
-	err := server.ListenAndServeTLS(config.Service.CertFile, config.Service.KeyFile)
-	log.Fatal("Error: %s", err) // err is always non-nill
-}
-
 func startHTTP() {
 	addr := httpAddr()
 	router := route.NewGoPXRouter()
@@ -54,6 +44,16 @@ func startHTTP() {
 
 	log.Info("Running HTTP server on: %s", addr)
 	err := server.ListenAndServe()
+	log.Fatal("Error: %s", err) // err is always non-nill
+}
+
+func startHTTPS() {
+	addr := httpsAddr()
+	router := route.NewGoPXRouter()
+	server := &http.Server{Addr: addr, Handler: router, ErrorLog: serverLogger}
+
+	log.Info("Running HTTPS server on: %s", addr)
+	err := server.ListenAndServeTLS(config.Service.CertFile, config.Service.KeyFile)
 	log.Fatal("Error: %s", err) // err is always non-nill
 }
 
