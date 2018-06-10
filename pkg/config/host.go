@@ -12,9 +12,9 @@ const HostConfigPath = "./config/host.json"
 
 // HostConfig represents host names of all GoPX services.
 type HostConfig struct {
-	Web      string `json:"web"`
-	Registry string `json:"registry"`
-	VCS      string `json:"vcs"`
+	Web string `json:"web"`
+	API string `json:"api"`
+	VCS string `json:"vcs"`
 }
 
 // Host holds host names of all GoPX services.

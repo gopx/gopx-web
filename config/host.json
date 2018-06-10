@@ -1,5 +1,5 @@
 {
   "web": "gopx.io",
-  "registry": "registry.gopx.io:1202",
+  "api": "api.gopx.io:1202",
   "vcs": "vcs.gopx.io:1204"
 }
